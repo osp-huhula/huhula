@@ -18,7 +18,7 @@
 		<module>huhula-bom</module>
 	</modules>
 	<properties>
-		<project.property.dir>C://.rep//P//huhula//src//properties</project.property.dir>
+		<project.property.dir>${mvn.project.location}//src//properties</project.property.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 		<version.java>1.7</version.java>
@@ -47,7 +47,7 @@
 		<version.checkstyle.plugin>2.17</version.checkstyle.plugin>
 		<version.maven-pmd-plugin>3.7</version.maven-pmd-plugin>
 		<version.taglist-maven-plugin>2.4</version.taglist-maven-plugin>
-		<version.javancss-maven-plugin>2.1</version.javancss-maven-plugin> 
+		<version.javancss-maven-plugin>2.1</version.javancss-maven-plugin>
 	</properties>
 	<licenses>
 		<license>
@@ -97,7 +97,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>${project.	artifactId}-${project.version}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
 		<pluginManagement>
 			<plugins>
 				<!-- Eclipse project -->
@@ -380,4 +380,18 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<profiles>
+		<profile>
+			<id>DEV</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!mvn.project.location</name>
+				</property>
+			</activation>
+			<properties>
+				<mvn.project.location></mvn.project.location>
+			</properties>
+		</profile>
+	</profiles>
 </project>
