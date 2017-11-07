@@ -6,13 +6,21 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Huhula</name>
-	<description>Open-source POM huhula project</description>
+	<url>https://github.com/osp-huhula/huhula</url>
+	<organization>
+		<name>huhula</name>
+		<url>https://github.com/osp-huhula</url>
+	</organization>
+	<description>
+		Open-source huhula POM  project
+	</description>
 	<modules>
 		<module>huhula-bom</module>
 	</modules>
 	<properties>
 		<project.property.dir>C://.rep//P//huhula//src//properties</project.property.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 		<version.java>1.7</version.java>
 		<version.java.source>${version.java}</version.java.source>
 		<version.java.target>${version.java}</version.java.target>
@@ -33,7 +41,50 @@
 		<version-maven-antrun-plugin>1.8</version-maven-antrun-plugin>
 		<version-flyway-maven-plugin>4.2.0</version-flyway-maven-plugin>
 		<version-liquibase-maven-plugin>3.0.5</version-liquibase-maven-plugin>
+		<version.maven-release-plugin>2.5.3</version.maven-release-plugin>
+		<version.maven-javadoc-plugin>3.0.0-M1</version.maven-javadoc-plugin>
+		<version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
+		<version.checkstyle.plugin>2.17</version.checkstyle.plugin>
+		<version.maven-pmd-plugin>3.7</version.maven-pmd-plugin>
+		<version.taglist-maven-plugin>2.4</version.taglist-maven-plugin>
+		<version.javancss-maven-plugin>2.1</version.javancss-maven-plugin> 
 	</properties>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/osp-huhula/huhula</url>
+		<connection>scm:git:https://github.com/osp-huhula/huhula.git</connection>
+		<developerConnection>scm:git:https://github.com/osp-huhula/huhula.git</developerConnection>
+		<tag>HUHULA_0_0_1</tag>
+	</scm>
+	<developers>
+		<developer>
+			<name>João Carlos Brasileiro</name>
+			<email>jbrasileiro.git@gmail.com</email>
+			<url>https://github.com/jbrasileiro</url>
+			<roles>
+				<role>Java Developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/osp-huhula/huhula/issues</url>
+	</issueManagement>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-snapshot</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-release</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -46,7 +97,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.	artifactId}-${project.version}</finalName>
 		<pluginManagement>
 			<plugins>
 				<!-- Eclipse project -->
@@ -190,6 +241,45 @@
 					<configuration>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${version.maven-javadoc-plugin}</version>
+					<configuration>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${version.checkstyle.plugin}</version>
+					<configuration>
+						<configLocation>${basedir}/checkstyle/checkstyle.xml</configLocation>
+						<suppressionsLocation>${basedir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+						<includeTestSourceDirectory>true</includeTestSourceDirectory>
+						<enableRulesSummary>true</enableRulesSummary>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>${version.findbugs-maven-plugin}</version>
+					<configuration>
+						<excludeFilterFile>${basedir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${version.maven-pmd-plugin]</version>
+					<configuration>
+						<targetJdk>${version.java}</targetJdk>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${version.maven-release-plugin}</version>
+					<configuration>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -211,6 +301,83 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${version.maven-checkstyle-plugin}</version>
+				<configuration>
+					<configLocation>${basedir}/checkstyle/checkstyle.xml</configLocation>
+					<suppressionsLocation>${basedir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<enableRulesSummary>true</enableRulesSummary>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${version.findbugs-maven-plugin}</version>
+				<configuration>
+					<excludeFilterFile>${basedir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${version.maven-pmd-plugin}</version>
+				<configuration>
+					<targetJdk>${version.java}</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>${version.taglist-maven-plugin]</version>
+				<configuration>
+					<tagListOptions>
+						<tagClasses>
+							<tagClass>
+								<displayName>WIP - working in progress</displayName>
+								<tags>
+									<tag>
+										<matchString>TODO</matchString>
+										<matchType>exact</matchType>
+									</tag>
+									<tag>
+										<matchString>FIXME</matchString>
+										<matchType>exact</matchType>
+									</tag>
+									<tag>
+										<matchString>XXX</matchString>
+										<matchType>exact</matchType>
+									</tag>
+								</tags>
+							</tagClass>
+						</tagClasses>
+					</tagListOptions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javancss-maven-plugin</artifactId>
+				<version>${version.javancss-maven-plugin}</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
