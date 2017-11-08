@@ -19,6 +19,11 @@
 			<!-- ################# -->
 			<!-- ################# -->
 			<!-- COMPILE -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.6</version>
+			</dependency>
 			<!-- ################# -->
 			<!-- ################# -->
 			<!-- TEST -->
@@ -54,10 +59,11 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.0.1</version>
 				<configuration>
-
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<url>https://github.com/osp-huhula/huhula</url>
+	<name>huhula</name>
 </project>
