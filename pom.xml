@@ -25,6 +25,9 @@
 		<version.java>1.7</version.java>
 		<version.java.source>${version.java}</version.java.source>
 		<version.java.target>${version.java}</version.java.target>
+		<mvn.checkstyle.fail>true</mvn.checkstyle.fail>
+		<mvn.findbugs.fail>true</mvn.findbugs.fail>
+		<mvn.pmd.fail>true</mvn.pmd.fail>
 		<!-- MAVEN PLUGINS VERSION -->
 		<version-maven-eclipse-plugin>2.9</version-maven-eclipse-plugin>
 		<version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
@@ -254,6 +257,7 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>${version.checkstyle.plugin}</version>
 					<configuration>
+						<failOnViolation>${mvn.checkstyle.fail}</failOnViolation>
 						<configLocation>${project.property.dir}/checkstyle/checkstyle.xml</configLocation>
 						<suppressionsLocation>${project.property.dir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
@@ -265,6 +269,7 @@
 					<artifactId>findbugs-maven-plugin</artifactId>
 					<version>${version.findbugs-maven-plugin}</version>
 					<configuration>
+						<failOnError>${mvn.findbugs.fail}</failOnError>
 						<excludeFilterFile>${project.property.dir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
 					</configuration>
 				</plugin>
@@ -272,6 +277,7 @@
 					<artifactId>maven-pmd-plugin</artifactId>
 					<version>${version.maven-pmd-plugin}</version>
 					<configuration>
+						<failOnViolation>${mvn.pmd.fail}</failOnViolation>
 						<targetJdk>${version.java}</targetJdk>
 						<linkXref>true</linkXref>
 						<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>

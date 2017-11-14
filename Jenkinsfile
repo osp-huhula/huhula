@@ -25,7 +25,7 @@ node {
 	}
 	stage('maven install') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' install -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false "
+			sh "'${MVN_HOME}/bin/mvn' install -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false "
 		} else {
 			bat(/"${mvnHome}\bin\mvn" install -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false /)
 		}
