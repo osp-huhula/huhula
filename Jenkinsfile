@@ -18,25 +18,18 @@ node {
 	}
 	stage('maven verify') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' verify -Dmvn.project.location=${WORKSPACE} -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false "
+			sh "'${MVN_HOME}/bin/mvn' verify -Dmvn.project.location=${WORKSPACE} -Dmvn.verify.fail=false "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" verify -Dmvn.project.location=${WORKSPACE} -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false /)
+			bat(/"${mvnHome}\bin\mvn" verify -Dmvn.project.location=${WORKSPACE} -Dmvn.verify.fail=false " /)
 		}
 	}
-	stage('maven install') {
+	stage('maven install & site ') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' install -Dmvn.project.location=${WORKSPACE} -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false "
+			sh "'${MVN_HOME}/bin/mvn' clean install site -Dmvn.project.location=${WORKSPACE} -Dmvn.verify.fail=false "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" install -Dmvn.project.location=${WORKSPACE} -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false /)
+			bat(/"${mvnHome}\bin\mvn" clean install site -Dmvn.project.location=${WORKSPACE} -Dmvn.verify.fail=false /)
 		}
 	}
-	stage('site') {
-		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' site -Dmvn.project.location=${WORKSPACE} -DskipTests -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false "
-		} else {
-			bat(/"${mvnHome}\bin\mvn" site -Dmvn.project.location=${WORKSPACE} -DskipTests -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false /)
-		}
-   }
 	stage('Results') {
       junit '**/target/surefire-reports/TEST-*.xml'
       archive 'target/*.jar'
