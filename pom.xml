@@ -46,9 +46,11 @@
 		<version.maven-javadoc-plugin>3.0.0-M1</version.maven-javadoc-plugin>
 		<version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
 		<version.checkstyle.plugin>2.17</version.checkstyle.plugin>
-		<version.maven-pmd-plugin>3.7</version.maven-pmd-plugin>
+		<version.maven-pmd-plugin>3.8</version.maven-pmd-plugin>
 		<version.taglist-maven-plugin>2.4</version.taglist-maven-plugin>
 		<version.javancss-maven-plugin>2.1</version.javancss-maven-plugin>
+		<version.pitest-maven>0.20</version.pitest-maven>
+		<version.sonar-maven-plugin>3.3.0.603</version.sonar-maven-plugin>
 	</properties>
 	<licenses>
 		<license>
@@ -228,7 +230,6 @@
 					<configuration>
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<groupId>org.liquibase</groupId>
 					<artifactId>liquibase-maven-plugin</artifactId>
@@ -253,8 +254,8 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>${version.checkstyle.plugin}</version>
 					<configuration>
-						<configLocation>${basedir}/checkstyle/checkstyle.xml</configLocation>
-						<suppressionsLocation>${basedir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+						<configLocation>${project.property.dir}/checkstyle/checkstyle.xml</configLocation>
+						<suppressionsLocation>${project.property.dir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
 						<enableRulesSummary>true</enableRulesSummary>
 					</configuration>
@@ -264,14 +265,21 @@
 					<artifactId>findbugs-maven-plugin</artifactId>
 					<version>${version.findbugs-maven-plugin}</version>
 					<configuration>
-						<excludeFilterFile>${basedir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
+						<excludeFilterFile>${project.property.dir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
 					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-pmd-plugin</artifactId>
-					<version>${version.maven-pmd-plugin]</version>
+					<version>${version.maven-pmd-plugin}</version>
 					<configuration>
 						<targetJdk>${version.java}</targetJdk>
+						<linkXref>true</linkXref>
+						<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+						<minimumTokens>100</minimumTokens>
+						<excludes>
+						</excludes>
+						<excludeRoots>
+						</excludeRoots>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -296,7 +304,8 @@
 					<artifactId>taglist-maven-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -327,6 +336,40 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>${version.pitest-maven}</version>
+					<executions>
+						<execution>
+							<id>default</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>mutationCoverage</goal>
+							</goals>
+							<configuration>
+								<mutators>
+									<mutator>Constructor Calls Mutator</mutator>
+									<mutator>Inline Constant Mutator</mutator>
+									<mutator>Non Void Method Calls Mutator</mutator>
+									<mutator>Remove Conditionals Mutator</mutator>
+									<mutator>Experimental Member Variable Mutator</mutator>
+									<mutator>Experimental Switch Mutator</mutator>
+								</mutators>
+							</configuration>
+
+						</execution>
+					</executions>
+				</plugin>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.sonarsource.scanner.maven</groupId>
+							<artifactId>sonar-maven-plugin</artifactId>
+							<version>${version.sonar-maven-plugin}</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -350,6 +393,22 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${version.java.source}</source>
+					<target>${version.java.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -370,10 +429,47 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+							<goal>checkstyle</goal>
+							<goal>checkstyle-aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>pmd</goal>
+							<goal>cpd</goal>
+							<goal>check</goal>
+							<goal>cpd-check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>findbugs</goal>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -395,8 +491,8 @@
 			<plugin>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>${basedir}/checkstyle/checkstyle.xml</configLocation>
-					<suppressionsLocation>${basedir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+					<configLocation>${project.property.dir}/checkstyle/checkstyle.xml</configLocation>
+					<suppressionsLocation>${project.property.dir}/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					<enableRulesSummary>true</enableRulesSummary>
 				</configuration>
@@ -412,7 +508,11 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<configuration>
-					<excludeFilterFile>${basedir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
+					<excludeFilterFile>${project.property.dir}/findbugs/findbugs-exclude-filter.xml</excludeFilterFile>
+					<xmlOutput>true</xmlOutput>
+					<debug>false</debug>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
 				</configuration>
 			</plugin>
 			<plugin>
