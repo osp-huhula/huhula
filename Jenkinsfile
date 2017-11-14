@@ -18,9 +18,9 @@ node {
 	}
 	stage('maven verify') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' verify -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false "
+			sh "'${MVN_HOME}/bin/mvn' -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false verify "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" verify -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false /)
+			bat(/"${mvnHome}\bin\mvn" -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false verify /)
 		}
 	}
 	stage('maven install') {
