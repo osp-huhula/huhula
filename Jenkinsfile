@@ -4,36 +4,37 @@ node {
 	stage('cleaning'){
 	    cleanWs();
 	}
+	//clean verify -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false -Dpmd.failOnViolation=false verify
 	stage('Cheking out (GIT)') {
-		//checkout scm
-		sh 'git clone https://github.com/osp-huhula/huhula.git ./'
+		checkout scm
+		//sh 'git clone https://github.com/osp-huhula/huhula.git ./'
 	}
 	stage('maven compile') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' -Dmvn.project.location=${WORKSPACE} clean compile"
+			sh "'${MVN_HOME}/bin/mvn' clean compile -Dmvn.project.location=${WORKSPACE} "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" -Dmvn.project.location=${WORKSPACE} clean compile/)
+			bat(/"${mvnHome}\bin\mvn" clean compile -Dmvn.project.location=${WORKSPACE} /)
 		}
 	}
 	stage('maven verify') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false verify"
+			sh "'${MVN_HOME}/bin/mvn' verify -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false verify/)
+			bat(/"${mvnHome}\bin\mvn" verify -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false /)
 		}
 	}
 	stage('maven install') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false install"
+			sh "'${MVN_HOME}/bin/mvn' install -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false install/)
+			bat(/"${mvnHome}\bin\mvn" install -Dmvn.project.location=${WORKSPACE} -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false /)
 		}
 	}
 	stage('site') {
 		if (isUnix()) {
-			sh "'${MVN_HOME}/bin/mvn' -Dmvn.project.location=${WORKSPACE} -DskipTests -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false site"
+			sh "'${MVN_HOME}/bin/mvn' site -Dmvn.project.location=${WORKSPACE} -DskipTests -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false "
 		} else {
-			bat(/"${mvnHome}\bin\mvn" -Dmvn.project.location=${WORKSPACE} -DskipTests -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false site/)
+			bat(/"${mvnHome}\bin\mvn" site -Dmvn.project.location=${WORKSPACE} -DskipTests -Dcheckstyle.failOnViolation=false -Dfindbugs.failOnError=false /)
 		}
    }
 	stage('Results') {
