@@ -1,6 +1,6 @@
-package org.tw4j.romannumber.enums;
+package huhula.romannumber.enums;
 
-import org.tw4j.romannumber.beans.SymbolConvertable;
+import huhula.symbolnumber.beans.SymbolConvertable;
 
 public enum TypeNumberSymbol
     implements

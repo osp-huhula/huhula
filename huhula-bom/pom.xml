@@ -13,6 +13,26 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- MODULES VERSION -->
+			<dependency>
+				<groupId>com.github.osp-huhula</groupId>
+				<artifactId>huhula-properties</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.osp-huhula</groupId>
+				<artifactId>huhula-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.osp-huhula</groupId>
+				<artifactId>symbol-converter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.osp-huhula</groupId>
+				<artifactId>romannumber-converter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- DEPENDENCY VERSION -->
 			<!-- ################# -->
 			<!-- PROVIDE -->

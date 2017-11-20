@@ -1,4 +1,4 @@
-package org.tw4j.romannumber.enums;
+package huhula.romannumber.enums;
 
 public enum TypeSubtractiveNumberSymbol {
         IV(4),

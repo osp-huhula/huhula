@@ -1,11 +1,11 @@
-package org.tw4j.romannumber.enums;
+package huhula.romannumber.enums;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.tw4j.romannumber.beans.SymbolConvertable;
+import huhula.symbolnumber.beans.SymbolConvertable;
 
 public enum TypeRomanNumeral
     implements

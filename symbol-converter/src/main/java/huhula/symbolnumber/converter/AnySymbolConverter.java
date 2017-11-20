@@ -1,6 +1,6 @@
-package org.tw4j.romannumber;
+package huhula.symbolnumber.converter;
 
-import org.tw4j.romannumber.beans.SymbolConvertable;
+import huhula.symbolnumber.beans.SymbolConvertable;
 
 public interface AnySymbolConverter {
 

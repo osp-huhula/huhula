@@ -17,6 +17,8 @@
 	<modules>
 		<module>huhula-bom</module>
 		<module>huhula-commons</module>
+		<module>symbol-converter</module>
+		<module>romannumber-converter</module>
 	</modules>
 	<properties>
 		<project.property.dir>${mvn.project.location}//src//properties</project.property.dir>
@@ -635,6 +637,24 @@
 			</activation>
 			<properties>
 				<mvn.project.location>C:/.rep/P/huhula</mvn.project.location>
+			</properties>
+		</profile>
+		<profile>
+			<id>VERIFY-FAIL</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!mvn.verify.fail</name>
+				</property>
+			</activation>
+			<properties>
+				<mvn.verify.fail>true</mvn.verify.fail>
+			</properties>
+		</profile>
+		<profile>
+			<id>VERIFY-NO-FAIL</id>
+			<properties>
+				<mvn.verify.fail>false</mvn.verify.fail>
 			</properties>
 		</profile>
 	</profiles>

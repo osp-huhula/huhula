@@ -1,4 +1,4 @@
-package org.tw4j.romannumber.beans;
+package huhula.romannumber.beans;
 
 public interface RomanNumber {
 

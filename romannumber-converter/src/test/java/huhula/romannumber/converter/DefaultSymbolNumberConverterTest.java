@@ -1,9 +1,11 @@
-package org.tw4j.romannumber;
+package huhula.romannumber.converter;
+
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.tw4j.romannumber.enums.TypeNumberSymbol;
+
+import huhula.romannumber.enums.TypeNumberSymbol;
 
 public final class DefaultSymbolNumberConverterTest {
 

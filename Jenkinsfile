@@ -4,7 +4,7 @@ node {
 	stage('cleaning'){
 	    cleanWs();
 	}
-	//clean verify -Dmvn.checkstyle.fail=false -Dmvn.findbugs.fail=false -Dmvn.pmd.fail=false
+	//clean verify -Dmvn.verify.fail=false
 	stage('Cheking out (GIT)') {
 		checkout scm
 		//sh 'git clone https://github.com/osp-huhula/huhula.git ./'
